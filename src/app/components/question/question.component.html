@@ -1,8 +1,10 @@
-<div *ngIf="media">
-  <p>{{ media.title.english || media.title.romaji }}</p>
-  <p *ngIf="media.title.english">{{ media.title.romaji }}</p>
-  <p>{{ seasonNames[media.season] }} {{ media.startDate.year }}</p>
-  <p>{{ media.episodes }} jaksoa</p>
-  <img src="{{ character.image.large }}" />
-  <p>{{ character.name.first }} {{ character.name.last }}</p>
+<div *ngIf="options.length">
+  <p>Mikä anime?</p>
+  <img src="{{ correct.character.image.large }}" />
+  <div>
+    <div *ngFor="let option of options">
+      <p>{{ option.media.title.english || option.media.title.romaji }}</p>
+      <p *ngIf="option.media.title.english">{{ option.media.title.romaji }}</p>
+    </div>
+  </div>
 </div>

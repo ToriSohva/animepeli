@@ -7,63 +7,84 @@ import gql from 'graphql-tag';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements OnInit {
-  seasonNames: object;
-  media: object;
-  character: object;
 
-  constructor(private apollo: Apollo) {
-    this.seasonNames = {
-      'WINTER': 'Talvi',
-      'SPRING': 'Kevät',
-      'SUMMER': 'Kesä',
-      'FALL': 'Syksy',
-    }
+export class QuestionComponent implements OnInit {
+  private options: object[];
+  private correct: object;
+
+  constructor(private apollo: Apollo) { }
+
+  getRandom(max: number) {
+    return Math.floor(Math.random() * Math.floor(max));
   }
 
   ngOnInit() {
-    // get random number for picking a random media entry from
-    // within the current most popular series
-    const getRandom = max => Math.floor(Math.random() * Math.floor(max)),
-          page = getRandom(1)
+    this.options = [];
+    const query = gql`query ($type: MediaType, $sort: [MediaSort], $page: Int) {
+      Page (perPage: 1, page: $page) {
+        media (
+          type: $type,
+          sort: $sort,
+          format_in: [TV, TV_SHORT],
 
-    this.apollo.watchQuery({
-      query: gql`query ($type: MediaType, $sort: [MediaSort], $page: Int) {
-        Page (perPage: 1, page: $page) {
-          media (type: $type, sort: $sort, format_in: [TV, TV_SHORT, MOVIE]) {
-            id
-            title {
-              english
-              romaji
-            }
-            startDate {
-              year
-            }
-            season
-            episodes
-            source
-            characters (perPage: 10, page: 1) {
-              nodes {
-                name {
-                  first
-                  last
-                }
-                image {
-                  large
-                }
+        ) {
+          id
+          title {
+            english
+            romaji
+          }
+          characters (role: MAIN) {
+            nodes {
+              id
+              name {
+                first
+                last
+              }
+              image {
+                large
               }
             }
           }
         }
-      }`,
-      variables: {type: 'ANIME', sort: ['POPULARITY_DESC'], page},
-    }).valueChanges.subscribe(result => {
-      this.media = result.data && result.data.Page.media[0];
+      }
+    }`;
 
-      // Pick a random character among the most popular ones
-      const characters = result.data && this.media.characters.nodes;
-      this.character = characters && characters[getRandom(characters.length)];
-    });
+    // get random number for picking random media entries from
+    // within the current most popular series
+    const pages = [],
+          options = [];
+
+    while (pages.length < 3){
+      let random = this.getRandom(1500);
+      if (pages.indexOf(random) === -1) {
+        pages.push(random);
+      }
+    }
+
+    const doWatchQuery = i => this.apollo.watchQuery({
+        query,
+        variables: {type: 'ANIME', sort: ['POPULARITY_DESC'], page: pages[i]},
+      }).valueChanges.subscribe(result => {
+        const media = result.data && result.data.Page.media[0];
+
+        if (result.data) {
+          options.push({
+            character: media.characters.nodes[this.getRandom(media.characters.nodes.length)],
+            media
+          });
+        }
+
+        if (i < pages.length - 1) {
+          doWatchQuery(i + 1);
+        } else {
+          while (options.length > 3) {
+            options.splice(this.getRandom(options.length), 1);
+          }
+          this.options = options;
+          this.correct = options[this.getRandom(options.length)];
+        }
+      });
+
+    doWatchQuery(0);
   }
-
 }
