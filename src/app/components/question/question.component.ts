@@ -10,23 +10,31 @@ import { Media } from '../../models/Media';
 })
 export class QuestionComponent implements OnInit {
   media: object;
+  character: object;
 
   constructor(private apollo: Apollo) { }
 
   ngOnInit() {
+    // get random number for picking a random media entry from
+    // within the current most popular series
+    const getRandom = max => Math.floor(Math.random() * Math.floor(max)),
+          page = getRandom(1)
+
     this.apollo.watchQuery({
-      query: gql`query ($id: Int, $type: MediaType) {
-        Media (id: $id, type: $type) {
-          id
-          title {
-            english
-            romaji
+      query: gql`query ($type: MediaType, $sort: [MediaSort], $page: Int) {
+        Page (perPage: 1, page: $page) {
+          media (type: $type, sort: $sort, format_in: [TV, TV_SHORT, MOVIE]) {
+            id
+            title {
+              english
+              romaji
+            }
           }
         }
       }`,
-      variables: {id: 105333, type: 'ANIME'},
+      variables: {type: 'ANIME', sort: ['POPULARITY_DESC'], page},
     }).valueChanges.subscribe(result => {
-      this.media = result.data && result.data.Media;
+      this.media = result.data && result.data.Page.media[0];
     });
   }
 
