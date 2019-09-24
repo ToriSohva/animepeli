@@ -8,10 +8,18 @@ import gql from 'graphql-tag';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
+  seasonNames: object;
   media: object;
   character: object;
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo) {
+    this.seasonNames = {
+      'WINTER': 'Talvi',
+      'SPRING': 'Kevät',
+      'SUMMER': 'Kesä',
+      'FALL': 'Syksy',
+    }
+  }
 
   ngOnInit() {
     // get random number for picking a random media entry from
@@ -28,12 +36,33 @@ export class QuestionComponent implements OnInit {
               english
               romaji
             }
+            startDate {
+              year
+            }
+            season
+            episodes
+            source
+            characters (perPage: 10, page: 1) {
+              nodes {
+                name {
+                  first
+                  last
+                }
+                image {
+                  large
+                }
+              }
+            }
           }
         }
       }`,
       variables: {type: 'ANIME', sort: ['POPULARITY_DESC'], page},
     }).valueChanges.subscribe(result => {
       this.media = result.data && result.data.Page.media[0];
+
+      // Pick a random character among the most popular ones
+      const characters = result.data && this.media.characters.nodes;
+      this.character = characters && characters[getRandom(characters.length)];
     });
   }
 
