@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { ScoreService } from '../../services/score.service';
 
 @Component({
   selector: 'app-question',
@@ -12,7 +13,10 @@ export class QuestionComponent implements OnInit {
   private options: object[];
   private correct: object;
 
-  constructor(private apollo: Apollo) { }
+  constructor(
+    private apollo: Apollo,
+    private scoreService: ScoreService,
+  ) { }
 
   getRandom(max: number) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -86,5 +90,9 @@ export class QuestionComponent implements OnInit {
       });
 
     doWatchQuery(0);
+  }
+
+  onAnswer(isCorrect: boolean) {
+    this.scoreService.answer(isCorrect);
   }
 }

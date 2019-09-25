@@ -4,7 +4,7 @@
     <img src="{{ correct.character.image.large }}" />
   </div>
   <div class="options">
-    <div *ngFor="let option of options" class="option">
+    <div *ngFor="let option of options" (click)="onAnswer(option.media.id == correct.media.id)" class="option">
       <p class="primary-title">{{ option.media.title.english || option.media.title.romaji }}</p>
       <p *ngIf="option.media.title.english" class="secondary-title">{{ option.media.title.romaji }}</p>
     </div>
