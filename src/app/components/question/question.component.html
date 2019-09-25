@@ -1,10 +1,12 @@
-<div *ngIf="options.length">
-  <p>Mikä anime?</p>
-  <img src="{{ correct.character.image.large }}" />
-  <div>
-    <div *ngFor="let option of options">
-      <p>{{ option.media.title.english || option.media.title.romaji }}</p>
-      <p *ngIf="option.media.title.english">{{ option.media.title.romaji }}</p>
+<div *ngIf="options.length" id="question">
+  <h1>Missä seuraavista esiintyy...</h1>
+  <div class="character-image">
+    <img src="{{ correct.character.image.large }}" />
+  </div>
+  <div class="options">
+    <div *ngFor="let option of options" class="option">
+      <p class="primary-title">{{ option.media.title.english || option.media.title.romaji }}</p>
+      <p *ngIf="option.media.title.english" class="secondary-title">{{ option.media.title.romaji }}</p>
     </div>
   </div>
 </div>
