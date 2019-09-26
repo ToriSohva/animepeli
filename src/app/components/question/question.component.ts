@@ -45,13 +45,12 @@ export class QuestionComponent implements OnInit {
   fetchQuestion() {
     // TODO: handle the rare case in which none of the options have characters
     //       with any images
-    this.options = [];
-    const query = gql`query ($type: MediaType, $sort: [MediaSort], $page: Int) {
+    const query = gql`query ($page: Int) {
       Page (perPage: 1, page: $page) {
         media (
-          type: $type,
-          sort: $sort,
-          format_in: [TV, TV_SHORT],
+          type: ANIME,
+          sort: [POPULARITY_DESC],
+          format_in: [TV, TV_SHORT, MANGA],
 
         ) {
           id
@@ -89,7 +88,7 @@ export class QuestionComponent implements OnInit {
 
     const doWatchQuery = i => this.apollo.watchQuery({
         query,
-        variables: {type: 'ANIME', sort: ['POPULARITY_DESC'], page: pages[i]},
+        variables: {page: pages[i]},
       }).valueChanges.subscribe(result => {
         const media = result.data && result.data.Page.media[0];
 
