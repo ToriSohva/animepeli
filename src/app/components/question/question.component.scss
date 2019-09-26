@@ -29,7 +29,26 @@ $blue: #86e;
             justify-content: center;
             align-items: center;
             color: $quite-white;
-            margin: 10px;
+            margin: 0 15px;
+        }
+    }
+
+    .quiz-progress {
+        background-color: $quite-white;
+        width: 80vw;
+        max-width: 500px;
+        height: 30px;
+        border-radius: 15px;
+        margin: 5px;
+        overflow: hidden;
+        display: block;
+        box-shadow: inset 4px 4px 4px $quite-white-shadow;
+
+
+        .percentage {
+            background-color: $blue;
+            height: 100%;
+            display: block;
         }
     }
 
@@ -45,6 +64,7 @@ $blue: #86e;
         display: flex;
         justify-content: center;
         border-radius: 2em;
+        box-shadow: inset 4px 4px 4px $quite-white-shadow;
 
         & > img {
             height: 100%;

@@ -6,6 +6,9 @@
   <div class="character-image">
     <img src="{{ correct.character.image.large }}" />
   </div>
+  <div *ngIf="scoreService.limit != 0" class="quiz-progress">
+    <div class="percentage" [ngStyle]="{width: (100 * (scoreService.tries + 0.5) / scoreService.limit) + '%'}"></div>
+  </div>
   <div class="options">
     <div *ngFor="let option of options" (click)="onAnswer(option.media.id == correct.media.id)" class="option">
       <p class="primary-title">{{ option.media.title.english || option.media.title.romaji }}</p>
