@@ -13,6 +13,7 @@ export class QuestionComponent implements OnInit {
   private options: object[];
   private correct: object;
   private disabled: boolean;
+  private userAnswer: number;
 
   constructor(
     private apollo: Apollo,
@@ -105,9 +106,15 @@ export class QuestionComponent implements OnInit {
           while (options.length > 3) {
             options.splice(this.getRandom(options.length), 1);
           }
-          this.options = options;
-          this.correct = this.getRandomOptionWithCharacter(this.options);
-          this.disabled = false;
+
+          const afterTimeout = () => {
+            this.userAnswer = null;
+            this.options = options;
+            this.correct = this.getRandomOptionWithCharacter(this.options);
+            this.disabled = false;
+          };
+
+          window.setTimeout(afterTimeout, this.options ? 2000 : 0);
         }
       });
 
@@ -118,9 +125,10 @@ export class QuestionComponent implements OnInit {
     this.fetchQuestion();
   }
 
-  onAnswer(isCorrect: boolean) {
+  onAnswer(isCorrect: boolean, i: number) {
     if (!this.disabled) {
       this.disabled = true;
+      this.userAnswer = i;
       this.scoreService.answer(isCorrect);
       this.fetchQuestion();
     }

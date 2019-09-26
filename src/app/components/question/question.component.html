@@ -10,9 +10,20 @@
     <div class="percentage" [ngStyle]="{width: (100 * (scoreService.tries + 0.5) / scoreService.limit) + '%'}"></div>
   </div>
   <div class="options">
-    <div *ngFor="let option of options" (click)="onAnswer(option.media.id == correct.media.id)" class="option">
+    <div *ngFor="let option of options; let i = index"
+         [ngClass]="{
+           option: true,
+           correct: option.media.id == correct.media.id && userAnswer != null,
+           incorrect: option.media.id != correct.media.id && userAnswer != null,
+           selected: i == userAnswer
+         }"
+         (click)="onAnswer(option.media.id == correct.media.id, i)"
+         class="">
       <p class="primary-title">{{ option.media.title.english || option.media.title.romaji }}</p>
-      <p *ngIf="option.media.title.english" class="secondary-title">{{ option.media.title.romaji }}</p>
+      <p *ngIf="option.media.title.english && option.media.title.english != option.media.title.romaji"
+          class="secondary-title">
+        {{ option.media.title.romaji }}
+      </p>
     </div>
   </div>
 </div>
