@@ -22,7 +22,28 @@ export class QuestionComponent implements OnInit {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
+  getRandomOptionWithCharacter(options: object[]) {
+    options = options.filter(option => !!option.character)
+    return options[this.getRandom(options.length)];
+  }
+
+  getRandomCharacterWithImage(characters: object[]) {
+    const hasImage = character =>
+      !character.image.large.includes('default.jpg');
+
+    characters = characters.filter(character => hasImage(character));
+
+    // if none of the characters have an image, return null
+    if (!characters.length) {
+      return null;
+    }
+
+    return characters[this.getRandom(characters.length)];
+  }
+
   fetchQuestion() {
+    // TODO: handle the rare case in which none of the options have characters
+    //       with any images
     this.options = [];
     const query = gql`query ($type: MediaType, $sort: [MediaSort], $page: Int) {
       Page (perPage: 1, page: $page) {
@@ -73,7 +94,7 @@ export class QuestionComponent implements OnInit {
 
         if (result.data) {
           options.push({
-            character: media.characters.nodes[this.getRandom(media.characters.nodes.length)],
+            character: this.getRandomCharacterWithImage(media.characters.nodes),
             media
           });
         }
@@ -85,7 +106,7 @@ export class QuestionComponent implements OnInit {
             options.splice(this.getRandom(options.length), 1);
           }
           this.options = options;
-          this.correct = options[this.getRandom(options.length)];
+          this.correct = this.getRandomOptionWithCharacter(this.options);
         }
       });
 
