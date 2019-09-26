@@ -12,6 +12,7 @@ import { ScoreService } from '../../services/score.service';
 export class QuestionComponent implements OnInit {
   private options: object[];
   private correct: object;
+  private disabled: boolean;
 
   constructor(
     private apollo: Apollo,
@@ -107,6 +108,7 @@ export class QuestionComponent implements OnInit {
           }
           this.options = options;
           this.correct = this.getRandomOptionWithCharacter(this.options);
+          this.disabled = false;
         }
       });
 
@@ -118,7 +120,10 @@ export class QuestionComponent implements OnInit {
   }
 
   onAnswer(isCorrect: boolean) {
-    this.scoreService.answer(isCorrect);
-    this.fetchQuestion();
+    if (!this.disabled) {
+      this.disabled = true;
+      this.scoreService.answer(isCorrect);
+      this.fetchQuestion();
+    }
   }
 }
