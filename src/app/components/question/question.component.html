@@ -1,5 +1,8 @@
 <div *ngIf="options.length" id="question">
-  <h1>Missä seuraavista esiintyy...</h1>
+  <header class="top-bar">
+    <h1>Missä seuraavista esiintyy...</h1>
+    <div class="score"><span>{{ scoreService.score }} / {{ scoreService.limit || scoreService.tries }}</span></div>
+  </header>
   <div class="character-image">
     <img src="{{ correct.character.image.large }}" />
   </div>
