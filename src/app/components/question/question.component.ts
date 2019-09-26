@@ -22,7 +22,7 @@ export class QuestionComponent implements OnInit {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
-  ngOnInit() {
+  fetchQuestion() {
     this.options = [];
     const query = gql`query ($type: MediaType, $sort: [MediaSort], $page: Int) {
       Page (perPage: 1, page: $page) {
@@ -92,7 +92,12 @@ export class QuestionComponent implements OnInit {
     doWatchQuery(0);
   }
 
+  ngOnInit() {
+    this.fetchQuestion();
+  }
+
   onAnswer(isCorrect: boolean) {
     this.scoreService.answer(isCorrect);
+    this.fetchQuestion();
   }
 }
