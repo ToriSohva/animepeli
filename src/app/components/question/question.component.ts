@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { ScoreService } from '../../services/score.service';
@@ -17,6 +18,7 @@ export class QuestionComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
+    private router: Router,
     private scoreService: ScoreService,
   ) { }
 
@@ -125,12 +127,20 @@ export class QuestionComponent implements OnInit {
     this.fetchQuestion();
   }
 
+  onFinish() {
+    this.router.navigate(['../']);
+  }
+
   onAnswer(isCorrect: boolean, i: number) {
     if (!this.disabled) {
       this.disabled = true;
       this.userAnswer = i;
       this.scoreService.answer(isCorrect);
-      this.fetchQuestion();
+      if (!this.scoreService.limit || this.scoreService.tries < this.scoreService.limit) {
+        this.fetchQuestion();
+      } else {
+        window.setTimeout(() => this.onFinish(), 2000);
+      }
     }
   }
 }

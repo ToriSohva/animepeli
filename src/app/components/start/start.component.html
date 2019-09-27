@@ -1,0 +1,19 @@
+<div id="start">
+  <div class="result" *ngIf="scoreService.tries">
+    <h1>Pisteesi</h1>
+    <div class="score">{{ scoreService.score }}/{{ scoreService.tries }}</div>
+    <div class="share">
+      <img src="assets/Twitter_Logo_Blue.svg">
+      <span>Jaa tulos</span>
+    </div>
+  </div>
+  <div class="new-game">
+    <h1>{{ scoreService.tries ? 'Pelaa uudelleen' : 'Aloita peli'}}</h1>
+    <div class="round-options">
+      <div (click)="onGameStart(1)">1 kierros</div>
+      <div (click)="onGameStart(10)">10 kierrosta</div>
+      <div (click)="onGameStart(50)">50 kierrosta</div>
+      <div (click)="onGameStart(0)">Loputon</div>
+    </div>
+  </div>
+</div>

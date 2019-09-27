@@ -7,11 +7,13 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuestionComponent } from './components/question/question.component';
+import { StartComponent } from './components/start/start.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuestionComponent
+    QuestionComponent,
+    StartComponent
   ],
   imports: [
     BrowserModule,

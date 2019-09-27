@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ScoreService {
   score: number = 0; // number of right answers
   tries: number = 0; // tries in the current game
-  limit: number; // total rounds, 0 if endless
+  limit: number = 0; // total rounds, 0 if endless
 
   constructor() { }
 

@@ -1,9 +1,4 @@
-$quite-white: #fffafa;
-$quite-white-shadow: #efeafa;
-$blue: #86e;
-$green: #3c5;
-$red: #d43;
-$bg-shadow: #9a406f;
+@import '../../variables.scss';
 
 #question {
     display: flex;
