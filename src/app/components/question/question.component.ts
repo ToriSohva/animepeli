@@ -26,7 +26,7 @@ export class QuestionComponent implements OnInit {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
-  getRandomOptionWithCharacter(options: object[]) {
+  getRandomOptionWithCharacter(options: any[]) {
     options = options.filter(option => !!option.character)
     return options[this.getRandom(options.length)];
   }
@@ -93,7 +93,7 @@ export class QuestionComponent implements OnInit {
         query,
         variables: {page: pages[i]},
       }).valueChanges.subscribe(result => {
-        const media = result.data && result.data.Page.media[0];
+        const media = result.data && result.data['Page'].media[0];
 
         if (result.data) {
           options.push({

@@ -1,4 +1,4 @@
-<div *ngIf="options.length" id="question">
+<div *ngIf="options && options.length" id="question">
   <header class="top-bar">
     <h1>Missä seuraavista esiintyy...</h1>
     <div class="score"><span>{{ scoreService.score }} / {{ scoreService.limit || scoreService.tries }}</span></div>
