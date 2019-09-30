@@ -11,15 +11,15 @@ import { ScoreService } from '../../services/score.service';
 })
 
 export class QuestionComponent implements OnInit {
-  private options: object[];
-  private correct: object;
-  private disabled: boolean;
-  private userAnswer: number;
+  public options: any[];
+  public correct: any;
+  public disabled: boolean;
+  public userAnswer: number;
 
   constructor(
     private apollo: Apollo,
     private router: Router,
-    private scoreService: ScoreService,
+    public scoreService: ScoreService,
   ) { }
 
   getRandom(max: number) {

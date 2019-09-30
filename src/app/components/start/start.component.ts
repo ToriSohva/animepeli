@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class StartComponent implements OnInit {
 
   constructor(
-    private scoreService: ScoreService,
+    public scoreService: ScoreService,
     private router: Router,
   ) { }
 
