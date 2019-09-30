@@ -167,4 +167,10 @@ export class QuestionComponent implements OnInit {
       }
     }
   }
+
+  onStop() {
+    if (window.confirm('Haluatko keskeyttää pelin?')) {
+      this.onFinish();
+    }
+  }
 }

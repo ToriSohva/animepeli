@@ -139,6 +139,24 @@
         }
     }
 
+    .stop-button {
+        width: 65vw;
+        max-width: 350px;
+        overflow: hidden;
+        display: block;
+        background-color: $quite-white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 0.5em;
+        text-align: center;
+        border-radius: 1em;
+        box-shadow: inset 4px 4px 4px $quite-white-shadow;
+        cursor: pointer;
+        margin: 2px;
+        font-size: 1.2em;
+    }
+
     @media (min-width: 500px) and (min-height: 700px) {
         .character-image {
             max-width: 350px;
