@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
@@ -21,6 +21,7 @@ export class QuestionComponent implements OnInit {
   constructor(
     private apollo: Apollo,
     private router: Router,
+    private cdRef: ChangeDetectorRef,
     public scoreService: ScoreService,
   ) { }
 
@@ -112,6 +113,9 @@ export class QuestionComponent implements OnInit {
           }
 
           if (!this.waiting) {
+            const id = this.correct ? this.correct.media.id : null;
+            this.correct = {media: {id: id}};
+            this.cdRef.detectChanges();
             this.setNewQuestion(options);
           } else {
             this.pendingOptions = options;
@@ -126,6 +130,9 @@ export class QuestionComponent implements OnInit {
   afterTimeout() {
     this.waiting = false;
     if (this.pendingOptions) {
+      const id = this.correct ? this.correct.media.id : null;
+      this.correct = {media: {id: id}};
+      this.cdRef.detectChanges();
       this.setNewQuestion(this.pendingOptions);
     }
   }

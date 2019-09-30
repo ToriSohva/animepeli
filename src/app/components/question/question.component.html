@@ -4,7 +4,7 @@
     <div class="score"><span>{{ scoreService.score }} / {{ scoreService.limit || scoreService.tries }}</span></div>
   </header>
   <div class="character-image">
-    <img src="{{ correct.character.image.large }}" />
+    <img *ngIf="correct.character" src="{{ correct.character.image.large }}" />
   </div>
   <div *ngIf="scoreService.limit != 0" class="quiz-progress">
     <div class="percentage" [ngStyle]="{width: (100 * (scoreService.tries + 0.5) / scoreService.limit) + '%'}"></div>
