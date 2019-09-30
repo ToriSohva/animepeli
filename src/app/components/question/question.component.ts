@@ -15,6 +15,8 @@ export class QuestionComponent implements OnInit {
   public correct: any;
   public disabled: boolean;
   public userAnswer: number;
+  private waiting: boolean = false;
+  private pendingOptions: object = null;
 
   constructor(
     private apollo: Apollo,
@@ -109,18 +111,31 @@ export class QuestionComponent implements OnInit {
             options.splice(this.getRandom(options.length), 1);
           }
 
-          const afterTimeout = () => {
-            this.userAnswer = null;
-            this.options = options;
-            this.correct = this.getRandomOptionWithCharacter(this.options);
-            this.disabled = false;
-          };
+          if (!this.waiting) {
+            this.setNewQuestion(options);
+          } else {
+            this.pendingOptions = options;
+          }
 
-          window.setTimeout(afterTimeout, this.options ? 2000 : 0);
         }
       });
 
     doWatchQuery(0);
+  }
+
+  afterTimeout() {
+    this.waiting = false;
+    if (this.pendingOptions) {
+      this.setNewQuestion(this.pendingOptions);
+    }
+  }
+
+  setNewQuestion(options) {
+      this.pendingOptions = null;
+      this.userAnswer = null;
+      this.options = options;
+      this.correct = this.getRandomOptionWithCharacter(options);
+      this.disabled = false;
   }
 
   ngOnInit() {
@@ -138,6 +153,8 @@ export class QuestionComponent implements OnInit {
       this.scoreService.answer(isCorrect);
       if (!this.scoreService.limit || this.scoreService.tries < this.scoreService.limit) {
         this.fetchQuestion();
+        this.waiting = true;
+        window.setTimeout(() => this.afterTimeout(), 2000);
       } else {
         window.setTimeout(() => this.onFinish(), 2000);
       }
