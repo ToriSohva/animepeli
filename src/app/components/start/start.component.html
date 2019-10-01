@@ -2,10 +2,10 @@
   <div class="result" *ngIf="scoreService.tries">
     <h1>Pisteesi</h1>
     <div class="score">{{ scoreService.score }}/{{ scoreService.tries }}</div>
-    <div class="share">
+    <a class="share" href="https://twitter.com/intent/tweet?text=Sain%20animevisassa%20{{scoreService.score}}%20oikein%20{{scoreService.tries}}%20kysymyksestä%21&url=https://visa.shironeko.science&hashtags=animevisa">
       <img src="assets/Twitter_Logo_Blue.svg">
       <span>Jaa tulos</span>
-    </div>
+    </a>
   </div>
   <div class="new-game">
     <h1>{{ scoreService.tries ? 'Pelaa uudelleen' : 'Aloita peli'}}</h1>
