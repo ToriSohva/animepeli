@@ -1,9 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz&display=swap');
 
+html, body {
+  height: 100%;
+}
+
 body {
     background: #fa80af;
     margin: 0;
-    height: 100%;
     font-family: 'Yanone Kaffeesatz', sans-serif;
 }

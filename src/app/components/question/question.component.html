@@ -3,9 +3,7 @@
     <h1>Missä seuraavista esiintyy...</h1>
     <div class="score"><span>{{ scoreService.score }} / {{ scoreService.limit || scoreService.tries }}</span></div>
   </header>
-  <div class="character-image">
-    <img *ngIf="correct.character" src="{{ correct.character.image.large }}" />
-  </div>
+  <img *ngIf="correct.character" class="character-image" src="{{ correct.character.image.large }}" />
   <div *ngIf="scoreService.limit != 0" class="quiz-progress">
     <div class="percentage" [ngStyle]="{width: (100 * (scoreService.tries + 0.5) / scoreService.limit) + '%'}"></div>
   </div>

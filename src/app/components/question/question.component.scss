@@ -4,13 +4,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 95vh;
+    height: 100%;
+    min-height: 500px;
     width: 95vw;
     margin: auto;
 
     .top-bar {
+        flex: 0 0 auto;
+        padding-bottom: 4px;
         display: flex;
         align-items: center;
+        z-index: 1;
 
         & > h1 {
             flex: 1 1 auto;
@@ -58,25 +62,19 @@
     }
 
     .character-image {
-        flex: 0 0 95vw;
         box-sizing: border-box;
+        flex: 0 0 95vw;
         background-color: $quite-white;
-        padding: 10px;
-        width: 95vw;
-        max-width: 250px;
-        max-height: 250px;
+        padding: 3px;
+        max-width: 200px;
+        max-height: 200px;
         overflow: hidden;
-        display: flex;
-        justify-content: center;
         border-radius: 2em;
+        text-align: center;
+        padding: 2px;
+        object-fit: contain;
+        border-radius: 10px;
         box-shadow: inset 4px 4px 4px $quite-white-shadow;
-        align-items: center;
-
-        & > img {
-            height: 100%;
-            border-radius: 10px;
-            box-shadow: 4px 4px 4px $quite-white-shadow;
-        }
     }
 
     .options {
@@ -90,6 +88,7 @@
         .option {
             width: 85vw;
             max-width: 500px;
+            min-height: 2.3em;
             overflow: hidden;
             display: block;
             background-color: $blue;
@@ -123,7 +122,7 @@
             }
 
             .primary-title {
-                font-size: 1.2em;
+                font-size: 1.1em;
                 margin: 0;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -131,7 +130,7 @@
             }
 
             .secondary-title {
-                font-size: 1.1em;
+                font-size: 1em;
                 margin: 0;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -154,14 +153,39 @@
         border-radius: 1em;
         box-shadow: inset 4px 4px 4px $quite-white-shadow;
         cursor: pointer;
-        margin: 2px;
+        margin-top: 2px;
+        margin-bottom: 10px;
         font-size: 1.2em;
     }
 
-    @media (min-width: 500px) and (min-height: 700px) {
+    @media (max-height: 699px) {
         .character-image {
+            margin-top: -15px;
+        }
+    }
+
+    @media (min-height: 560px) {
+        .character-image {
+            max-width: 280px;
+            max-height: 280px;
+            padding: 5px;
+        }
+        .options .option {
+            .primary-title {
+                font-size: 1.6em;
+            }
+            .secondary-title {
+                font-size: 1.4em;
+            }
+        }
+    }
+
+    @media (min-width: 360px) and (min-height: 700px) {
+        .character-image {
+            width: 95vw;
             max-width: 350px;
             max-height: 350px;
+            padding: 10px;
         }
         .top-bar {
             & > h1 {
@@ -190,8 +214,10 @@
 
     @media (min-width: 500px) and (min-height: 900px) {
         .character-image {
+            width: 95vw;
             max-width: 500px;
             max-height: 500px;
+            padding: 10px;
         }
         .top-bar {
             & > h1 {
