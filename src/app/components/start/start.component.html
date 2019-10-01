@@ -11,7 +11,6 @@
   <div class="new-game">
     <h2>{{ scoreService.tries ? 'Pelaa uudelleen' : 'Aloita peli'}}</h2>
     <div class="round-options">
-      <div (click)="onGameStart(1)">1 kierros</div>
       <div (click)="onGameStart(10)">10 kierrosta</div>
       <div (click)="onGameStart(50)">50 kierrosta</div>
       <div (click)="onGameStart(0)">Loputon</div>
